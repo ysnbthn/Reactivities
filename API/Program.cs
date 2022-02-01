@@ -23,7 +23,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // database fonksiyonu
-autoMigrate(app);
+await autoMigrate(app);
 
 app.Run();
 
@@ -43,15 +43,15 @@ void AddServices(WebApplicationBuilder builder)
 }
 
 // database fonksiyonları için Webapplication app
-void autoMigrate(WebApplication app){
+async Task autoMigrate(WebApplication app){
     // Datase yoksa otomatik migration yapıp database yapıcak
     using(var scope = app.Services.CreateScope()){
         try
         {
             //üstte datacontexti service olarak containera eklediğimiz için kullanabiliyoruz
             var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            context.Database.Migrate();
-
+            await context.Database.MigrateAsync();
+            await Seed.SeedData(context);
         }
         catch(Exception ex)
         {
