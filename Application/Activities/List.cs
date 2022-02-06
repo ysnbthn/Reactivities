@@ -15,11 +15,12 @@ namespace Application.Activities
             {
                 _context = context;
             }
-
+            // eğer datayı almak uzun sürecekse ve kullanıcının requesti iptal etme gibi bir ihtimali varsa
+            // işlemi durdurmak için cancellationToken kullan
             public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // datayı controller yerine burada çek gönder
-                return await _context.Activities.ToListAsync();
+                return await _context.Activities.ToListAsync(); // cancellationToken
             }
         }
     }

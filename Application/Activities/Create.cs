@@ -15,7 +15,7 @@ namespace Application.Activities
 
         public class Handler : IRequestHandler<Command>
         {
-           private readonly DataContext _context;
+            private readonly DataContext _context;
 
             public Handler(DataContext context)
             {
@@ -25,7 +25,7 @@ namespace Application.Activities
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Activities.Add(request.Activity);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 // kod patlamasın diye boş bişey döndürüyorsun
                 return Unit.Value;
             }

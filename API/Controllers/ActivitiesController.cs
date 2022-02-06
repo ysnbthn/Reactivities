@@ -6,10 +6,10 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        [HttpGet]
-        public async Task<ActionResult<List<Activity>>> GetActivities()
+        [HttpGet] // Cancellation tokenı kullanmak için buraya da eklemen lazım
+        public async Task<ActionResult<List<Activity>>> GetActivities() //CancellationToken ct
         {
-            return await Mediator.Send(new List.Query());
+            return await Mediator.Send(new List.Query()); //new List.Query(), ct
         }
 
         [HttpGet("{id}")]
@@ -34,7 +34,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
-            return Ok(await Mediator.Send(new Delete.Command { Id = id}));
+            return Ok(await Mediator.Send(new Delete.Command { Id = id }));
         }
     }
 }
