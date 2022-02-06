@@ -1385,11 +1385,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\api\\API.csproj",
+      "projectUniqueName": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\api\\API.csproj",
+      "projectPath": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\API\\API.csproj",
       "packagesPath": "C:\\Users\\batuh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\api\\obj\\",
+      "outputPath": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\batuh\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1406,8 +1406,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Application\\Application.csproj": {
-              "projectPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Application\\Application.csproj"
+            "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Application\\Application.csproj": {
+              "projectPath": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Application\\Application.csproj"
             }
           }
         }
