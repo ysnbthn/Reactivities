@@ -15,7 +15,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
@@ -40,12 +44,22 @@ void AddServices(WebApplicationBuilder builder)
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    // React'ın API'da olan cors policy'i geçmesi için
+    builder.Services.AddCors(opt =>
+    {
+        opt.AddPolicy("CorsPolicy", policy =>
+        {
+            policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+        });
+    });
 }
 
 // database fonksiyonları için Webapplication app
-async Task autoMigrate(WebApplication app){
+async Task autoMigrate(WebApplication app)
+{
     // Datase yoksa otomatik migration yapıp database yapıcak
-    using(var scope = app.Services.CreateScope()){
+    using (var scope = app.Services.CreateScope())
+    {
         try
         {
             //üstte datacontexti service olarak containera eklediğimiz için kullanabiliyoruz
@@ -53,10 +67,10 @@ async Task autoMigrate(WebApplication app){
             await context.Database.MigrateAsync();
             await Seed.SeedData(context);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-        var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
-        logger.LogError(ex, "An error occured during migration");
+            var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+            logger.LogError(ex, "An error occured during migration");
         }
     }
 }

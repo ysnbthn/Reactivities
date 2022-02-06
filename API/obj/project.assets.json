@@ -1385,11 +1385,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\api\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\API\\API.csproj",
+      "projectPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\api\\API.csproj",
       "packagesPath": "C:\\Users\\batuh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\API\\obj\\",
+      "outputPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\batuh\\AppData\\Roaming\\NuGet\\NuGet.Config",
