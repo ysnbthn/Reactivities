@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Activity } from '../models/activity';
 import NavBar from './navbar';
 import ActivityDasboard from '../../features/activities/dashboard/ActivityDasboard';
+import {v4 as uuid} from 'uuid';
 
 function App() {
   // use state içine activity interface arrayi ekle
@@ -38,6 +39,17 @@ function handleFormClose(){
   setEditMode(false);
 }
 
+function handleCreateOrEditActivity(activity: Activity){
+  activity.id ? setActivities([...activities.filter(x=>x.id !== activity.id), activity])
+  : setActivities([...activities, {...activity, id: uuid()}]);
+  setEditMode(false);
+  setSelectedActivity(activity);
+}
+
+function handleDeleteActivity(id:string){
+  setActivities([...activities.filter(x=>x.id !== id)]);
+}
+
   return (
     <Fragment>
       <NavBar openForm={handleFormOpen}/>
@@ -50,6 +62,8 @@ function handleFormClose(){
         editMode={editMode}
         openForm={handleFormOpen}
         closeForm={handleFormClose}
+        createOrEdit={handleCreateOrEditActivity}
+        deleteActivity={handleDeleteActivity}
         />
       </Container>
         
