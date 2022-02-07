@@ -11,6 +11,8 @@ function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   // activite seçimini ayarlamak için
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
+  // edit listesi çıkartmak için
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     // response olarak ne geleceğini belirt
@@ -19,7 +21,7 @@ function App() {
     })
   }, []);
 
-function handleSelectedActivity(id: string) {
+function handleSelectActivity(id: string) {
   setSelectedActivity(activities.find(x=>x.id === id));
 }
 
@@ -27,15 +29,27 @@ function handleCancelSelectActivity(){
   setSelectedActivity(undefined);
 }
 
+function handleFormOpen(id?: string) {
+  id ? handleSelectActivity(id) : handleCancelSelectActivity();
+  setEditMode(true);
+}
+
+function handleFormClose(){
+  setEditMode(false);
+}
+
   return (
     <Fragment>
-      <NavBar />
+      <NavBar openForm={handleFormOpen}/>
       <Container style={{marginTop: '7em'}}>
         <ActivityDasboard 
         activities={activities}
         selectedActivity={selectedActivity}
-        selectActivity={handleSelectedActivity}
+        selectActivity={handleSelectActivity}
         cancelSelectActivity={handleCancelSelectActivity}
+        editMode={editMode}
+        openForm={handleFormOpen}
+        closeForm={handleFormClose}
         />
       </Container>
         
