@@ -15,6 +15,7 @@ interface Props{
     closeForm : () => void;
     createOrEdit : (activity : Activity) => void;
     deleteActivity : (id: string) => void;
+    submitting: boolean;
 }
 
 // semantic ui da grid 10 luk sistemden oluşuyor
@@ -22,13 +23,14 @@ interface Props{
 // bu şekilde birçok propu daha rahat childa gönderebiliriz
 export default function ActivityDasboard({activities, selectedActivity, selectActivity, 
                                           cancelSelectActivity, editMode, openForm, 
-                                          closeForm, createOrEdit, deleteActivity} : Props) {
+                                          closeForm, createOrEdit, deleteActivity, submitting} : Props) {
     return(
         <Grid>
             <Grid.Column width='10'>
                 <ActivityList activities={activities} 
                               selectActivity={selectActivity}
                               deleteActivity={deleteActivity}
+                              submitting={submitting}
                               />
             </Grid.Column>
             <Grid.Column width='6'>
@@ -38,7 +40,12 @@ export default function ActivityDasboard({activities, selectedActivity, selectAc
                 openForm={openForm}
                 /> }
                 {editMode &&
-                <ActivityForm  closeForm={closeForm} activity={selectedActivity} createOrEdit={createOrEdit}/> }
+                <ActivityForm  
+                    closeForm={closeForm} 
+                    activity={selectedActivity} 
+                    createOrEdit={createOrEdit}
+                    submitting={submitting}
+                    /> }
             </Grid.Column>
         </Grid>
     )
