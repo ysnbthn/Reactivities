@@ -9,6 +9,8 @@ function App() {
   // use state içine activity interface arrayi ekle
   // interface içinde activity modeli var
   const [activities, setActivities] = useState<Activity[]>([]);
+  // activite seçimini ayarlamak için
+  const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
 
   useEffect(() => {
     // response olarak ne geleceğini belirt
@@ -17,11 +19,24 @@ function App() {
     })
   }, []);
 
+function handleSelectedActivity(id: string) {
+  setSelectedActivity(activities.find(x=>x.id === id));
+}
+
+function handleCancelSelectActivity(){
+  setSelectedActivity(undefined);
+}
+
   return (
     <Fragment>
       <NavBar />
       <Container style={{marginTop: '7em'}}>
-        <ActivityDasboard activities={activities}/>
+        <ActivityDasboard 
+        activities={activities}
+        selectedActivity={selectedActivity}
+        selectActivity={handleSelectedActivity}
+        cancelSelectActivity={handleCancelSelectActivity}
+        />
       </Container>
         
     </Fragment>
