@@ -1,5 +1,6 @@
 using Application.Activities;
 using Application.Core;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -16,8 +17,13 @@ namespace API.Extensions
             var connectionString = builder.Configuration.GetConnectionString("conn");
             builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlite(connectionString));
 
-            // Add services to the container
-            builder.Services.AddControllers();
+            // Add services to the container then fluent validation
+            builder.Services.AddControllers().AddFluentValidation(config =>{
+                config.RegisterValidatorsFromAssemblyContaining<Create>();
+            });
+
+            
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

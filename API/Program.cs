@@ -1,5 +1,6 @@
 
 using API.Extensions;
+using API.Middleware;
 using Application.Activities;
 using Application.Core;
 using MediatR;
@@ -12,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 ApplicationServiceExtensions.AddServices(builder);
 
 var app = builder.Build();
+
+// kendi yaptığın middleware'i ekle
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

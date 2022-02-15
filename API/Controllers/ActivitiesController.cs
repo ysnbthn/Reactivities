@@ -7,34 +7,35 @@ namespace API.Controllers
     public class ActivitiesController : BaseApiController
     {
         [HttpGet] // Cancellation tokenı kullanmak için buraya da eklemen lazım
-        public async Task<ActionResult<List<Activity>>> GetActivities() //CancellationToken ct
+        public async Task<IActionResult> GetActivities() //CancellationToken ct
         {
-            return await Mediator.Send(new List.Query()); //new List.Query(), ct
+            return HandleResult(await Mediator.Send(new List.Query())); //new List.Query(), ct
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activity>> GetActivity(Guid id)
+        // actionresult type of thing | IActionResult http response
+        public async Task<IActionResult> GetActivity(Guid id)
         {
-            return await Mediator.Send(new Details.Query { Id = id });
+            return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
 
         [HttpPost] // istersen from body de koyabilirsin
         public async Task<IActionResult> CreateActivity(Activity activity)
         {
-            return Ok(await Mediator.Send(new Create.Command { Activity = activity }));
+            return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> EditActivity(Guid id, Activity activity)
         {
             activity.Id = id;
-            return Ok(await Mediator.Send(new Edit.Command { Activity = activity }));
+            return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
-            return Ok(await Mediator.Send(new Delete.Command { Id = id }));
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
     }
 }
