@@ -37,7 +37,6 @@ namespace API.Middleware
                 var json = JsonSerializer.Serialize(response, options);
                 // response olarak json objesini yap
                 await context.Response.WriteAsync(json);
-
             }
         }
     }
