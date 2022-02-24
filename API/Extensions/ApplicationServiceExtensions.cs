@@ -2,6 +2,8 @@ using Application.Activities;
 using Application.Core;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -18,11 +20,20 @@ namespace API.Extensions
             builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlite(connectionString));
 
             // Add services to the container then fluent validation
-            builder.Services.AddControllers().AddFluentValidation(config =>{
+            builder.Services.AddControllers(opt=>{
+                // tüm endpointlere authorization ekliyorsun
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));        
+            })
+                .AddFluentValidation(config =>{
                 config.RegisterValidatorsFromAssemblyContaining<Create>();
             });
 
-            
+
+
+            builder.Services.AddIdentityServices(builder.Configuration);
+
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

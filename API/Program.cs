@@ -3,7 +3,9 @@ using API.Extensions;
 using API.Middleware;
 using Application.Activities;
 using Application.Core;
+using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -29,6 +31,8 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseCors("CorsPolicy");
+//jwt authentication servisini ekle
+app.UseAuthentication();
 
 app.UseAuthorization();
 
@@ -51,8 +55,9 @@ async Task autoMigrate(WebApplication app)
         {
             //üstte datacontexti service olarak containera eklediğimiz için kullanabiliyoruz
             var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
             await context.Database.MigrateAsync();
-            await Seed.SeedData(context);
+            await Seed.SeedData(context, userManager);
         }
         catch (Exception ex)
         {
