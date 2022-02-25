@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]// geçici
     public class ActivitiesController : BaseApiController
     {
         [HttpGet] // Cancellation tokenı kullanmak için buraya da eklemen lazım
