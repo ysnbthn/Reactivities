@@ -11,5 +11,8 @@ namespace Domain
         public string Category { get; set; }
         public string City { get; set; }
         public string Venue { get; set; }
+        public bool IsCanceled { get; set; }
+        // activity eklerken null referans almamak için
+        public ICollection<ActivityAttendee> Attendees { get; set; } = new List<ActivityAttendee>();
     }
 }
