@@ -1,4 +1,7 @@
 // hata yapmamak için activity modelini yapıyoruz
+
+import { Profile } from "./profile";
+
 // eğer yazım yanlışı yaparsak typescript tokadı basıyor
 export interface Activity{
     id: string;
@@ -8,4 +11,10 @@ export interface Activity{
     category: string;
     city: string;
     venue: string;
+    hostUsername?: string;
+    isCancelled?: boolean;
+    isGoing?: boolean;
+    isHost?: boolean;
+    host?: Profile;
+    attendees?: Profile[];
 }
