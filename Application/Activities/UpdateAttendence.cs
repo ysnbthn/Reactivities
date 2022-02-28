@@ -16,7 +16,7 @@ namespace Application.Activities
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command,Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -47,7 +47,7 @@ namespace Application.Activities
                     activity.IsCanceled = !activity.IsCanceled;
                 }
                 // normal kişi gidiyorsa kaldır
-                if (attendance != null && hostUsername == user.UserName)
+                if (attendance != null && hostUsername != user.UserName)
                 {
                     activity.Attendees.Remove(attendance);
                 }
