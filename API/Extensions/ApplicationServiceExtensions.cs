@@ -2,6 +2,7 @@ using Application.Activities;
 using Application.Core;
 using Application.Interfaces;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,14 +23,16 @@ namespace API.Extensions
             builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlite(connectionString));
 
             // Add services to the container then fluent validation
-            builder.Services.AddControllers(opt=>{
+            builder.Services.AddControllers(opt =>
+            {
                 // tüm endpointlere authorization ekliyorsun
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                opt.Filters.Add(new AuthorizeFilter(policy));        
+                opt.Filters.Add(new AuthorizeFilter(policy));
             })
-                .AddFluentValidation(config =>{
-                config.RegisterValidatorsFromAssemblyContaining<Create>();
-            });
+                .AddFluentValidation(config =>
+                {
+                    config.RegisterValidatorsFromAssemblyContaining<Create>();
+                });
 
 
 
@@ -54,6 +57,11 @@ namespace API.Extensions
             builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             // interface ile implementasyonunu DI Containera ekle
             builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+            builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+
+            // add cloudinary
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
+
         }
 
     }
