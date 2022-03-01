@@ -254,3 +254,4 @@ client-app/.env.production.local
 client-app/npm-debug.log*
 client-app/yarn-debug.log*
 client-app/yarn-error.log*
+API/appsettings.json
