@@ -13,6 +13,7 @@ namespace Persistence
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,6 +26,9 @@ namespace Persistence
             // activities için one to many
             builder.Entity<ActivityAttendee>().HasOne(u=>u.Activity).WithMany(a=>a.Attendees).HasForeignKey(y=> y.ActivityId);
             // ikiside ortadaki table ile one to many yaptı birbirleriyle many to many yapmış oldular
+
+            // commentler için özel relationship. Activity silinince ona bağlı commentlerde gidiyor 
+            builder.Entity<Comment>().HasOne(a=>a.Activity).WithMany(c=>c.Comments).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

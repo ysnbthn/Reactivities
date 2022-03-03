@@ -48,7 +48,11 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    policy
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .WithOrigins("http://localhost:3000");
                 });
             });
             // mediator ekle ve yerini göster
@@ -58,6 +62,7 @@ namespace API.Extensions
             // interface ile implementasyonunu DI Containera ekle
             builder.Services.AddScoped<IUserAccessor, UserAccessor>();
             builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            builder.Services.AddSignalR();
 
             // add cloudinary
             builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));

@@ -1,6 +1,7 @@
 
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Application.Activities;
 using Application.Core;
 using Domain;
@@ -38,6 +39,8 @@ app.UseAuthorization();
 
 //apiları çağırırken kullanıyorsun
 app.MapControllers();
+// signalR ekle
+app.MapHub<ChatHub>("/chat");
 
 // database fonksiyonu
 await autoMigrate(app);

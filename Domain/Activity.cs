@@ -14,5 +14,7 @@ namespace Domain
         public bool IsCanceled { get; set; }
         // activity eklerken null referans almamak için
         public ICollection<ActivityAttendee> Attendees { get; set; } = new List<ActivityAttendee>();
+        // comment listesi yap
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
