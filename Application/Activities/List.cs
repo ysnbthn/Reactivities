@@ -1,7 +1,7 @@
 using Application.Core;
+using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -15,10 +15,12 @@ namespace Application.Activities
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
             {
                 _context = context;
                 _mapper = mapper;
+                _userAccessor = userAccessor;
             }
             // eğer datayı almak uzun sürecekse ve kullanıcının requesti iptal etme gibi bir ihtimali varsa
             // işlemi durdurmak için cancellationToken kullan
@@ -26,7 +28,8 @@ namespace Application.Activities
             {
                 // automapper ile projection yap
                 var activities = await _context.Activities
-                .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider)
+                // anon object yapıp kullanıcı ismini mappera yolla
+                .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new {currentUsername = _userAccessor.GetUserName()})
                 .ToListAsync(cancellationToken);
 
                 // datayı controller yerine burada çek gönder

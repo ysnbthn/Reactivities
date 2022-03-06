@@ -5,6 +5,10 @@ export interface Profile{
     displayName:string;
     image?:string;
     bio?: string;
+    // follower/following bilgilerini ekle
+    followersCount: number;
+    followingCount: number;
+    following: boolean;
     photos?: Photo[];
 }
 // user üret

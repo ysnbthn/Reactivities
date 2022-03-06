@@ -13,12 +13,16 @@ export default observer( function ProfilePage(){
     // algılamazsa soldakini böyle yap
     const {username} = useParams<{username: string}>();
     const {profileStore} = useStore();
-    const {loadingProfile, loadProfile, profile} = profileStore;
+    const {loadingProfile, loadProfile, profile, setActiveTab} = profileStore;
     
     // load profile çağırabilmek için
     useEffect(()=>{
         loadProfile(username);
-    }, [loadProfile, username]);
+        // component yokedilince active tabı sıfırla
+        return () => {
+            setActiveTab(0);
+        }
+    }, [loadProfile, username, setActiveTab]);
 
     if(loadingProfile) return <LoadingComponent content='Loading profile...' />
 

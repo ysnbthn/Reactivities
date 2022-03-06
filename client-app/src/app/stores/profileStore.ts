@@ -1,4 +1,5 @@
-import { makeAutoObservable, runInAction } from "mobx";
+
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Photo, Profile } from "../models/profile";
 import { store } from "./store";
@@ -8,9 +9,30 @@ export default class ProfileStore{
     loadingProfile = false;
     uploading = false;
     loading = false;
+    followings: Profile[]= [];
+    // çok fazla loadingi kullandığımız için buna özel ayrı verdik
+    loadingFollowings = false;
+    activeTab = 0;
 
     constructor(){
         makeAutoObservable(this);
+        // reaction ile aktif olan tabı al ve fonksiyonu ona göre çağır
+        reaction(
+            () => this.activeTab,
+            activeTab => {
+                if(activeTab === 3 || activeTab === 4){
+                    const predicate = activeTab === 3 ? 'followers' : 'following';
+                    this.loadFollowings(predicate);
+                }else{
+                    // tab değişince followingleri sıfırla
+                    this.followings = [];
+                }
+            }
+        )
+    }
+    // aktif olanı değiş
+    setActiveTab = (activeTab: any) => {
+        this.activeTab = activeTab;
     }
 
     get isCurrentUser(){
@@ -107,5 +129,51 @@ export default class ProfileStore{
             runInAction(() => this.loading = false);
             }
         }
+    
+    updateFollowing = async (username: string, following: boolean) => {
+        this.loading = true;
+        try {
+            // API endpointine post at
+            await agent.Profiles.updateFollowing(username);
+            // activity içindeki follower counterları güncelle
+            store.activityStore.updateAttendeeFollowing(username);
+            // profile içindeki follower counterları güncelle
+            runInAction(()=> {
+                                                                                                // \/ kendi profilinde başkasını takip eder yada çıkarırsan diye
+                if(this.profile && this.profile.username !== store.userStore.user?.username && this.profile.username === username){
+                    following ? this.profile.followersCount++ : this.profile.followersCount--;
+                    this.profile.following = !this.profile.following;
+                }
+                // kendi profilinde başkasını takip eder yada çıkarırsan diye
+                if(this.profile && this.profile.username === store.userStore.user?.username){
+                    following ? this.profile.followingCount++ : this.profile.followingCount--;
+                }
+                this.followings.forEach(profile=> {
+                    if(profile.username === username){
+                        profile.following ? profile.followersCount-- : profile.followersCount++;
+                        profile.following = !profile.following;
+                    }
+                })
+                this.loading = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(()=> this.loading = false);
+        }
+    }
 
+    loadFollowings = async(predicate:string) => {
+        this.loadingFollowings = true;
+        try {
+            // API'a istek at gelen datayı buradaki followings arrayine at
+            const followings = await agent.Profiles.listFollowings(this.profile!.username, predicate);
+            runInAction(()=>{
+                this.followings = followings;
+                this.loadingFollowings = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(()=> this.loadingFollowings = false);
+        }
+    }
 }
