@@ -1,4 +1,5 @@
 using Application.Activities;
+using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,10 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        [HttpGet] // Cancellation tokenı kullanmak için buraya da eklemen lazım
-        public async Task<IActionResult> GetActivities() //CancellationToken ct
+        [HttpGet] 
+        public async Task<IActionResult> GetActivities([FromQuery]PagingParams param) // params reserved kelime 
         {
-            return HandleResult(await Mediator.Send(new List.Query())); //new List.Query(), ct
+            return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
         }
 
         [HttpGet("{id}")]
