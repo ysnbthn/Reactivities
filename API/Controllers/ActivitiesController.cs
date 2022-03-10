@@ -8,8 +8,8 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        [HttpGet] 
-        public async Task<IActionResult> GetActivities([FromQuery]PagingParams param) // params reserved kelime 
+        [HttpGet]                                      
+        public async Task<IActionResult> GetActivities([FromQuery]ActivityParams param) // params reserved kelime 
         {
             return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
         }

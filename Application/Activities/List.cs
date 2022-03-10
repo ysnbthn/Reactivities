@@ -12,7 +12,7 @@ namespace Application.Activities
     {
         public class Query : IRequest<Result<PagedList<ActivityDto>>>
         {
-            public PagingParams Params { get; set; }
+            public ActivityParams Params { get; set; }
         }
         public class Handler : IRequestHandler<Query, Result<PagedList<ActivityDto>>>
         {
@@ -31,11 +31,22 @@ namespace Application.Activities
             {
                 // automapper ile projection yap
                 var query = _context.Activities
+                // şimdiki zamandan başla
+                .Where(d=>d.Date >= request.Params.StartDate)
                 .OrderBy(d => d.Date)
                 // anon object yapıp kullanıcı ismini mappera yolla
                 .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUsername = _userAccessor.GetUserName() })
                 // queryable olarak yap database kısmına yollama
                 .AsQueryable();
+
+                // Sadece kullanıcının gittiği aktiviteleri getir
+                if(request.Params.IsGoing && !request.Params.IsHost){
+                    query = query.Where(x=>x.Attendees.Any(a=>a.Username == _userAccessor.GetUserName()));
+                }
+                // sadece kullanıcının host olduklarını getir
+                if(request.Params.IsHost && !request.Params.IsGoing){
+                    query = query.Where(x=>x.HostUsername == _userAccessor.GetUserName());
+                }
 
                 // datayı controller yerine burada çek gönder
                 return Result<PagedList<ActivityDto>>.Success(
