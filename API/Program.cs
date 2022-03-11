@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 
 // tüm servisler static classa taşındı
@@ -30,6 +31,9 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 app.UseRouting();
+// wwwroot klasöründeki dosyaları görsün
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
 //jwt authentication servisini ekle
@@ -41,9 +45,13 @@ app.UseAuthorization();
 app.MapControllers();
 // signalR ekle
 app.MapHub<ChatHub>("/chat");
-
+// static dosyalar için yönlendirme
+//app.MapFallbackToController("Index","Fallback");
+app.MapFallbackToFile("index.html");
 // database fonksiyonu
 await autoMigrate(app);
+
+
 
 app.Run();
 
