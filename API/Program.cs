@@ -20,12 +20,38 @@ var app = builder.Build();
 
 // kendi yaptığın middleware'i ekle
 app.UseMiddleware<ExceptionMiddleware>();
+// güvenlik için ekle
+app.UseXContentTypeOptions();
+// browser referrer info göndermesin diye
+app.UseReferrerPolicy(opt => opt.NoReferrer());
+// cross site scripting koruması için
+app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+// başka sitede iframe içinde siteyi açmasınlar diye
+app.UseXfo(opt => opt.Deny());
+// güvenlik raporlarını görmek için
+app.UseCsp(opt => opt
+    // tüm content https olucak
+    .BlockAllMixedContent()
+    // kaynak içeriden geliyor demek
+    .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"))
+    .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:", "https://cdnjs.cloudflare.com"))
+    .FormActions(s => s.Self())
+    .FrameAncestors(s => s.Self())
+    .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com"))
+    .ScriptSources(s => s.Self())
+);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}else
+{
+    app.Use(async (context, next) =>{
+        context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
+        await next.Invoke();
+    });
 }
 
 //app.UseHttpsRedirection();
