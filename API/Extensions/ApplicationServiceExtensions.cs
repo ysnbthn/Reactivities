@@ -87,6 +87,8 @@ namespace API.Extensions
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
+                    // clientside kısmından buna erişebilmemiz lazım
+                    .WithExposedHeaders("WWW-Authenticate", "Pagination")
                     .WithOrigins("http://localhost:3000");
                 });
             });

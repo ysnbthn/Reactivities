@@ -31,7 +31,10 @@ namespace API.Extensions
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        // normalde token süresi bitince fazladan 5 dk veriyormuş bunla onu kaldırıyoruz
+                        ClockSkew = TimeSpan.Zero
                     };
                     // signalR bağlantısı için jwt ekle
                     opt.Events = new JwtBearerEvents

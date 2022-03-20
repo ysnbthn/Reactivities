@@ -16,8 +16,6 @@ namespace API.Extensions
             };
             // custom header yap ve headera ekle
             response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader));
-            // Browserın paginationı okuması için onu expose et
-            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
     }
 }

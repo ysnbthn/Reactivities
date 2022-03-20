@@ -1315,11 +1315,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Persistence\\Persistence.csproj",
+      "projectUniqueName": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Persistence\\Persistence.csproj",
       "projectName": "Persistence",
-      "projectPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Persistence\\Persistence.csproj",
+      "projectPath": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Persistence\\Persistence.csproj",
       "packagesPath": "C:\\Users\\batuh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Persistence\\obj\\",
+      "outputPath": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\batuh\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1336,8 +1336,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Domain\\Domain.csproj"
+            "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Domain\\Domain.csproj": {
+              "projectPath": "c:\\Users\\batuh\\Desktop\\demo\\Reactivities\\Domain\\Domain.csproj"
             }
           }
         }
