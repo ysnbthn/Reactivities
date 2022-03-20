@@ -2,6 +2,7 @@ using Application.Activities;
 using Application.Core;
 using Application.Interfaces;
 using FluentValidation.AspNetCore;
+using Infrastructure.Email;
 using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
@@ -98,6 +99,8 @@ namespace API.Extensions
             builder.Services.AddScoped<IUserAccessor, UserAccessor>();
             builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             builder.Services.AddSignalR();
+            // email doğrulama için sendgrid ekle
+            builder.Services.AddScoped<EmailSender>();
 
             // add cloudinary
             builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));

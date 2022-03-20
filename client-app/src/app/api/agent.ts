@@ -95,7 +95,10 @@ const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
     register : (user: UserFormValues) => requests.post<User>('/account/register', user),
-    fbLogin: (accessToken: string) => requests.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {})
+    fbLogin: (accessToken: string) => requests.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {}),
+    // burada bide refresh token var ama logoutda hata oldu ondan kaldırdım
+    verifyEmail: (token: string, email: string) => requests.post<void>(`/account/verifyEmail?token=${token}&email=${email}`, {}),
+    resendEmailConfirm: (email:string) => requests.get(`/account/resendEmailConfirmationLink?email=${email}`)
 }
 
 // profil metodları

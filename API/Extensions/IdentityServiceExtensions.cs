@@ -16,9 +16,13 @@ namespace API.Extensions
                 
                 services.AddIdentityCore<AppUser>(opt=>{
                     opt.Password.RequireNonAlphanumeric = false;
+                    // mail doğrulamayı aç
+                    opt.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<DataContext>()
-                .AddSignInManager<SignInManager<AppUser>>();
+                .AddSignInManager<SignInManager<AppUser>>()
+                // kullanıcının hesabı doğrulaması için token gönderiyorsun
+                .AddDefaultTokenProviders();
                 
                 // bunun yerine keyi direkt enviorement variable olarak gömebilirsin
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));

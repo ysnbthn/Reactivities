@@ -6,7 +6,7 @@ import { useStore } from '../stores/store';
 
 export default observer( function NavBar(){
 
-    const {userStore: {user, logout}} = useStore();
+    const {userStore: {user, logout, isLoggedIn}} = useStore();
 
     return (
         <Menu inverted fixed='top'>
@@ -15,6 +15,8 @@ export default observer( function NavBar(){
                   <img src="/assets/logo.png" alt="logo" style={{marginRight: '10px'}}/>
                   Reactivites  
                 </Menu.Item>
+                {isLoggedIn &&
+                <>
                 <Menu.Item as={NavLink} to='/activities'name='Activities'/>
                 <Menu.Item as={NavLink} to='/errors' name='Errors'/>
                 <Menu.Item>
@@ -29,6 +31,8 @@ export default observer( function NavBar(){
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Item>
+                </>
+                }
             </Container>
         </Menu> 
     )
